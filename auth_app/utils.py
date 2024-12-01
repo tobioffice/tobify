@@ -1,36 +1,70 @@
-
-
+import os
+from dotenv import load_dotenv
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+# Load environment variables
+load_dotenv()
+
+# Get email configuration from environment variables
+smtp_server = os.getenv('SMTP_SERVER')
+smtp_port = int(os.getenv('SMTP_PORT'))
+sender_email = os.getenv('SENDER_EMAIL')
+sender_password = os.getenv('SENDER_PASSWORD')
+
 
 def send_email(user, otp):
-    smtp_server = 'smtp.gmail.com'
-    smtp_port = 465
 
-    sender_email = 'tobixdev@gmail.com'
-    sender_password = 'ahbnxwrbwzgaogqa'
     subject = 'Email Verification'
-    body = f'''<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-   <div style="margin:50px auto;width:70%;padding:20px 0">
-     <div style="border-bottom:1px solid #eee">
-       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Tobix Dev.</a>
-     </div>
-     <p style="font-size:1.1em">Hi, {user.first_name}</p>
-     <p>Welcome. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
-     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">{otp}</h2>
-     <p style="font-size:0.9em;">Regards,<br />Tobix Dev</p>
-     <hr style="border:none;border-top:1px solid #eee" />
-     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-       <p>Tobix Inc</p>
-     </div>
-   </div>
- </div>
- '''
+    body = f'''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email Verification</title>
+    </head>
+    <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 20px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="color: #1DB954; margin: 0; font-size: 28px; font-weight: 700;">Tobify</h1>
+                <p style="color: #666; font-size: 14px; margin-top: 5px;">Music Conversion Made Easy</p>
+            </div>
+
+            <div style="border-top: 2px solid #f0f0f0; border-bottom: 2px solid #f0f0f0; padding: 30px 0; margin: 20px 0;">
+                <h2 style="color: #333; font-size: 20px; margin: 0 0 15px 0;">Hi {user.first_name}! 👋</h2>
+                <p style="color: #666; font-size: 16px; line-height: 1.5; margin: 0 0 20px 0;">
+                    Welcome to Tobify! Please use the verification code below to complete your registration. This code will expire in 5 minutes.
+                </p>
+
+                <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0;">
+                    <h2 style="color: #1DB954; font-size: 32px; letter-spacing: 5px; margin: 0;">{otp}</h2>
+                </div>
+
+                <p style="color: #666; font-size: 14px; margin: 20px 0 0 0;">
+                    If you didn't request this code, you can safely ignore this email.
+                </p>
+            </div>
+
+            <div style="text-align: center;">
+                <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Need help? Contact our support team</p>
+                <a href="mailto:support@tobify.com" style="color: #1DB954; text-decoration: none; font-weight: 500;">support@tobify.com</a>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center; border-top: 2px solid #f0f0f0; padding-top: 20px;">
+                <p style="color: #999; font-size: 12px; margin: 0;">
+                    2024 Tobify. All rights reserved.<br>
+                    Made with ❤️ for music lovers
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    '''
 
     msg = MIMEMultipart()
-    msg['From'] = 'Tobix Dev. <tobi@tobix.dev>'
+    msg['From'] = f'Tobify <{sender_email}>'
     msg['To'] = user.email
     msg['Subject'] = subject
 
@@ -43,15 +77,3 @@ def send_email(user, otp):
         print("Email sent successfully!")
     except Exception as e:
         print(f"Failed to send email: {e}")
-
-
-class User:
-    def __init__(self) -> None:
-        self.first_name = 'tobi'
-        self.email = 'xhaalez1@gmail.com'
-
-
-user1 = User()
-
-send_email(user1, 123456)
-# print(user.first_name)
