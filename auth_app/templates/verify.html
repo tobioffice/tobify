@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="{% static 'media/icon.png' %}" type="image/png" />
+    <title>Verify your email - Tobify</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(45deg, #6b21a8, #3730a3);
+        font-family: 'Inter', sans-serif;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .container {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px;
+      }
+
+      .title {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #1f2937;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+      }
+
+      .message {
+        text-align: center;
+        font-size: 0.9rem;
+        color: #6b7280;
+        margin-bottom: 2rem;
+      }
+
+      .otp-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .otp-inputs {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
+      .otp-inputs input {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        font-size: 1.2rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: #f9fafb;
+        outline: none;
+        transition: all 0.3s;
+      }
+
+      .otp-inputs input:focus {
+        border-color: #6b21a8;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(107, 33, 168, 0.1);
+      }
+
+      .submit-btn {
+        background: #6b21a8;
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .submit-btn:hover {
+        background: #581c87;
+      }
+
+      .resend {
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .resend a {
+        color: #6b21a8;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .resend a:hover {
+        color: #581c87;
+      }
+
+      .alert {
+        position: fixed;
+        top: 5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        background: #fef2f2;
+        border: 1px solid #fee2e2;
+        color: #991b1b;
+        animation: slideIn 0.3s ease-out;
+        z-index: 100;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translate(-50%, -100%);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <main>
+      <div class="container">
+        <h1 class="title">Verify your email</h1>
+        <p class="message">Please enter the 6-digit code sent to your email</p>
+        
+        <form method="POST" class="otp-form">
+          {% csrf_token %}
+          <div class="otp-inputs">
+            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required name="otp1" />
+            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required name="otp2" />
+            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required name="otp3" />
+            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required name="otp4" />
+            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required name="otp5" />
+            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required name="otp6" />
+            <input type="hidden" name="otp" id="otpFinal" />
+          </div>
+          <button type="submit" class="submit-btn">Verify</button>
+          <div class="resend">
+            <a href="{% url 'resend_mail' %}">Resend code</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.otp-inputs input');
+        const form = document.querySelector('.otp-form');
+        const otpFinal = document.getElementById('otpFinal');
+
+        // Focus first input on load
+        inputs[0].focus();
+
+        inputs.forEach((input, index) => {
+          // Handle input
+          input.addEventListener('input', function() {
+            if (this.value.length === 1) {
+              if (index < inputs.length - 1) {
+                inputs[index + 1].focus();
+              }
+            }
+          });
+
+          // Handle backspace
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value && index > 0) {
+              inputs[index - 1].focus();
+            }
+          });
+
+          // Handle paste
+          input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData('text').slice(0, inputs.length);
+            
+            [...pastedData].forEach((char, i) => {
+              if (i < inputs.length) {
+                inputs[i].value = char;
+                if (i < inputs.length - 1) {
+                  inputs[i + 1].focus();
+                }
+              }
+            });
+          });
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+          const otp = [...inputs].map(input => input.value).join('');
+          otpFinal.value = otp;
+        });
+
+        // Auto-hide alerts after 5 seconds
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+          setTimeout(() => {
+            alert.style.opacity = '0';
+            alert.style.transform = 'translate(-50%, -100%)';
+            setTimeout(() => alert.remove(), 300);
+          }, 5000);
+        });
+      });
+    </script>
+
+    {% include 'js.html' %}
+  </body>
+</html>

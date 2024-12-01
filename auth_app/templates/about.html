@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Tobify</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="about-container">
+        <div class="about-header">
+            <h1>About Tobify</h1>
+            <div class="header-underline"></div>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="card-icon">📝</div>
+                <h2>Smart Notes</h2>
+                <p>Create, organize, and access your notes with ease. Perfect for students and professionals.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="card-icon">📊</div>
+                <h2>Attendance Tracking</h2>
+                <p>Keep track of your attendance across subjects and labs with our intuitive dashboard.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="card-icon">🔒</div>
+                <h2>Secure & Private</h2>
+                <p>Your data is encrypted and stored securely. We prioritize your privacy.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="card-icon">🚀</div>
+                <h2>Fast & Reliable</h2>
+                <p>Built with modern technology for speed and reliability you can count on.</p>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>Tobify aims to simplify student life by providing essential tools for note-taking and attendance management in one unified platform. We're committed to creating an intuitive and efficient experience for our users.</p>
+        </div>
+
+        <div class="contact-section">
+            <h2>Get in Touch</h2>
+            <div class="contact-links">
+                <a href="https://t.me/tobichecker" class="contact-link telegram">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.05 2.717c-.83-.326-4.994.176-9.66 1.498C7.723 5.536 3.156 7.45 1.29 8.874.384 9.473.085 10.13.048 10.737c-.063 1.027 1.364 1.44 3.336 2.28l.805.342c.83.354 1.922.822 2.241 1.197.43.507.437 1.172.445 1.85a5.619 5.619 0 01-.074.995c-.21 1.238-.61 2.437-.61 2.437s1.394-1.287 2.473-2.017c.95-.642 1.898-1.09 2.28-1.09.382 0 .771.448 1.186.896.83.896 1.772 1.91 3.544 1.91 2.89 0 3.97-2.032 3.97-2.032s3.989-6.825 4.575-8.783c.586-1.958.483-3.773-.169-4.005z" fill="currentColor"/>
+                    </svg>
+                    <span>Join our Telegram</span>
+                </a>
+                <a href="mailto:muraliofficial120@gmail.com" class="contact-link email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Email Us</span>
+                </a>
+                <a href="https://github.com/tobioffice" class="contact-link github">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="currentColor"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 2rem;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-underline {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-card h2 {
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+            color: #fff;
+        }
+
+        .about-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .about-section {
+            margin-bottom: 4rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .about-section p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 115, 255, 0.2);
+        }
+
+        .contact-link svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .github:hover {
+            background: #24292e;
+            border-color: #1b1f23;
+        }
+
+        .telegram:hover {
+            background: #0088cc;
+            border-color: #0077b3;
+        }
+
+        .email:hover {
+            background: #ea4335;
+            border-color: #d62516;
+        }
+
+        @media (max-width: 768px) {
+            .about-container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .about-header h1 {
+                font-size: 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ note.title }} - Tobify{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+<style>
+    body {
+        background: #000;
+        min-height: 100vh;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        padding-top: 80px;
+    }
+
+    .note-container {
+        max-width: 800px;
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .note-header {
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+    }
+
+    .note-title {
+        font-size: clamp(1.25rem, 4vw, 2rem);
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+    }
+
+    .note-metadata {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .metadata-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .metadata-item svg {
+        width: 14px;
+        height: 14px;
+        opacity: 0.6;
+    }
+
+    .note-content {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Text formatting */
+    .note-content p {
+        margin-bottom: 1rem;
+    }
+
+    .note-content h1, .note-content h2, .note-content h3 {
+        margin: 1.5rem 0 0.75rem;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    .note-content h1 { font-size: 1.5rem; }
+    .note-content h2 { font-size: 1.25rem; }
+    .note-content h3 { font-size: 1.1rem; }
+
+    .note-content ul, .note-content ol {
+        margin: 0.75rem 0;
+        padding-left: 1.25rem;
+    }
+
+    .note-content li {
+        margin-bottom: 0.25rem;
+    }
+
+    /* Code blocks */
+    .note-content pre {
+        margin: 1rem 0;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow-x: auto;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .note-content code {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9em;
+        padding: 0.2em 0.4em;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+    }
+
+    .note-content pre code {
+        padding: 0;
+        background: transparent;
+        border-radius: 0;
+    }
+
+    /* Links */
+    .note-content a {
+        color: #6b73ff;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .note-content a:hover {
+        border-bottom-color: #6b73ff;
+    }
+
+    /* Blockquotes */
+    .note-content blockquote {
+        margin: 1rem 0;
+        padding: 0.75rem 1rem;
+        border-left: 3px solid #6b73ff;
+        background: rgba(107, 115, 255, 0.1);
+        font-style: italic;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+        .note-container {
+            margin: 0.5rem auto;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .note-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .note-content {
+            font-size: 0.9rem;
+        }
+
+        .note-content pre {
+            padding: 0.75rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="note-container">
+    <header class="note-header">
+        <h1 class="note-title">{{ note.title }}</h1>
+        <div class="note-metadata">
+            <div class="metadata-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path>
+                </svg>
+                <span>{{ note.author.username }}</span>
+            </div>
+            <div class="metadata-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>{{ note.created_at|date:"F j, Y" }}</span>
+            </div>
+            {% if note.updated_at %}
+            <div class="metadata-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 2v6h-6"></path>
+                    <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                    <path d="M3 12a9 9 0 0 0 15 6.7L21 16"></path>
+                    <path d="M21 22v-6h-6"></path>
+                </svg>
+                <span>Updated {{ note.updated_at|date:"F j, Y" }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="note-content">
+        {% if note.content|slice:":3" == "```" %}
+            <pre><code>{{ note.content|slice:"3:"|cut:"```" }}</code></pre>
+        {% else %}
+            {{ note.content|linebreaks }}
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script>
+    // Auto-detect and highlight code blocks
+    document.querySelectorAll('pre code').forEach((block) => {
+        Prism.highlightElement(block);
+    });
+</script>
+{% endblock %}

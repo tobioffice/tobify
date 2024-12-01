@@ -1,0 +1,428 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="{% static 'media/icon.png' %}" type="image/png" />
+    <title>My Notes - Tobify</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      .notes-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .notes-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .notes-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+      }
+
+      .new-note-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #6b21a8;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .new-note-btn:hover {
+        background: #581c87;
+      }
+
+      .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .note-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        overflow: hidden;
+      }
+
+      .note-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .note-content {
+        display: block;
+        padding: 1.5rem;
+        height: 100%;
+      }
+
+      .note-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.4;
+      }
+
+      .note-preview {
+        color: #4b5563;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0 0 1rem 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .note-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+      }
+
+      .note-info {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .note-date {
+        color: #6b7280;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .note-visibility-btn {
+        background: none;
+        border: none;
+        padding: 4px;
+        cursor: pointer;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .note-visibility-btn:hover {
+        background: #f3f4f6;
+      }
+
+      .note-visibility-btn.public {
+        color: #059669;
+      }
+
+      .note-visibility-btn.private {
+        color: #6b7280;
+      }
+
+      .note-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .note-action-btn {
+        color: #6b7280;
+        padding: 0.25rem;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .note-action-btn:hover {
+        background: #f3f4f6;
+        color: #1f2937;
+      }
+
+      .edit-btn:hover {
+        color: #6b21a8;
+      }
+
+      .delete-btn:hover {
+        color: #dc2626;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .empty-icon {
+        font-size: 3rem;
+        color: #9ca3af;
+        margin-bottom: 1rem;
+      }
+
+      .empty-text {
+        font-size: 1.25rem;
+        color: #4b5563;
+        margin-bottom: 1.5rem;
+      }
+
+      @media (max-width: 640px) {
+        .notes-header {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: flex-start;
+        }
+
+        .notes-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        animation: fadeIn 0.2s ease-in-out;
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 24px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        animation: slideIn 0.2s ease-in-out;
+      }
+
+      .modal h2 {
+        margin: 0 0 16px 0;
+        color: #333;
+        font-size: 1.5rem;
+      }
+
+      .modal p {
+        margin: 8px 0;
+        color: #666;
+      }
+
+      .modal-warning {
+        color: #dc3545 !important;
+        font-size: 0.9rem;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .cancel-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .cancel-btn:hover {
+        background: #f5f5f5;
+      }
+
+      .delete-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #dc3545;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+
+      .delete-btn:hover {
+        background: #c82333;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideIn {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+
+    <div class="notes-container">
+      <div class="notes-header">
+        <h1 class="notes-title">My Notes</h1>
+        <a href="{% url 'new_note' %}" class="new-note-btn">
+          <span class="material-symbols-outlined">add</span>
+          New Note
+        </a>
+      </div>
+
+      {% if notes %}
+        <div class="notes-grid">
+          {% for note in notes %}
+            <div class="note-card">
+              {% if note.id %}
+              <a href="{% url 'note_detail' note.id %}" class="note-content" style="text-decoration: none; color: inherit;">
+              {% else %}
+              <div class="note-content">
+              {% endif %}
+                <h2 class="note-title">{{ note.title }}</h2>
+                <p class="note-preview">{{ note.content|truncatechars:150 }}</p>
+                <div class="note-meta">
+                  <div class="note-info">
+                    <div class="note-date">
+                      <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                      {{ note.created_at|date:"M d, Y" }}
+                    </div>
+                    <button 
+                      onclick="event.stopPropagation(); toggleNoteVisibility('{{ note.id }}')" 
+                      class="note-visibility-btn {% if note.is_public %}public{% else %}private{% endif %}"
+                      id="visibility-btn-{{ note.id }}"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 16px;">{% if note.is_public %}public{% else %}lock{% endif %}</span>
+                      <span id="visibility-text-{{ note.id }}">{% if note.is_public %}Public{% else %}Private{% endif %}</span>
+                    </button>
+                  </div>
+                  <div class="note-actions">
+                    {% if note.id %}
+                    <a href="{% url 'edit_note' note.id %}" class="note-action-btn edit-btn" title="Edit" onclick="event.stopPropagation();">
+                      <span class="material-symbols-outlined">edit</span>
+                    </a>
+                    <button class="note-action-btn delete-btn" title="Delete" 
+                            onclick="event.stopPropagation(); showDeleteModal('{{ note.id }}', '{{ note.title|escapejs }}')">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                    {% endif %}
+                  </div>
+                </div>
+              {% if note.id %}
+              </a>
+              {% else %}
+              </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <span class="material-symbols-outlined empty-icon">note_stack</span>
+          <p class="empty-text">You don't have any notes yet</p>
+          <a href="{% url 'new_note' %}" class="new-note-btn">
+            <span class="material-symbols-outlined">add</span>
+            Create your first note
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal">
+      <div class="modal-content">
+        <h2>Delete Note</h2>
+        <p>Are you sure you want to delete "<span id="noteTitle"></span>"?</p>
+        <p class="modal-warning">This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button onclick="closeDeleteModal()" class="cancel-btn">Cancel</button>
+          <a href="#" id="confirmDelete" class="delete-btn">Delete</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showDeleteModal(noteId, noteTitle) {
+        const modal = document.getElementById('deleteModal');
+        const titleSpan = document.getElementById('noteTitle');
+        const confirmBtn = document.getElementById('confirmDelete');
+        
+        titleSpan.textContent = noteTitle;
+        confirmBtn.href = `/notes/${encodeURIComponent(noteId)}/delete/`;
+        modal.style.display = 'block';
+        
+        // Close modal when clicking outside
+        modal.onclick = function(event) {
+          if (event.target === modal) {
+            closeDeleteModal();
+          }
+        }
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'Escape') {
+            closeDeleteModal();
+          }
+        });
+      }
+
+      function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        modal.style.display = 'none';
+      }
+
+      async function toggleNoteVisibility(noteId) {
+        try {
+          const response = await fetch(`/toggle-note-visibility/${noteId}/`);
+          if (response.ok) {
+            const btn = document.getElementById(`visibility-btn-${noteId}`);
+            const text = document.getElementById(`visibility-text-${noteId}`);
+            const icon = btn.querySelector('.material-symbols-outlined');
+            
+            if (btn.classList.contains('private')) {
+              btn.classList.remove('private');
+              btn.classList.add('public');
+              text.textContent = 'Public';
+              icon.textContent = 'public';
+            } else {
+              btn.classList.remove('public');
+              btn.classList.add('private');
+              text.textContent = 'Private';
+              icon.textContent = 'lock';
+            }
+          }
+        } catch (error) {
+          console.error('Error toggling note visibility:', error);
+        }
+      }
+    </script>
+
+    {% include 'js.html' %}
+  </body>
+</html>

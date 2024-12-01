@@ -1,0 +1,27 @@
+<style>
+  /* CSS Animation */
+  @keyframes hideAfter3Seconds {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      top: -9999px;
+    }
+  }
+
+  .alert {
+    animation: hideAfter3Seconds 4s forwards;
+    animation-delay: 3s;
+  }
+</style>
+
+<script>
+  const passwordInput = document.getElementById("password");
+  const showPasswordCheckbox = document.getElementById("showPassword");
+
+  // Toggle password visibility based on checkbox state
+  showPasswordCheckbox.addEventListener("change", () => {
+    passwordInput.type = showPasswordCheckbox.checked ? "text" : "password";
+  });
+</script>

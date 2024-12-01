@@ -1,0 +1,180 @@
+{% load static %}
+<header>
+  <div class="nav-div">
+    <nav>
+        <a href="/" class="nav_a">
+            <img src="{% static 'media/logo.svg' %}" alt="Tobify">
+        </a>
+
+        <ul class="nav-t">
+            <li class="li">
+                <div class="nav_item_container {% if request.path == '/' %}active{% endif %}">
+                    <a class="font-six a_class" href="/">
+                        <p class="a_text">Home</p>
+                    </a>
+                </div>
+            </li>
+            <li class="li">
+                <div class="nav_item_container {% if request.path == '/about/' %}active{% endif %}">
+                    <a class="font-six a_class" href="/about">
+                        <p class="a_text">About</p>
+                    </a>
+                </div>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="li">
+                <div class="nav_item_container {% if '/attendence/' in request.path %}active{% endif %}">
+                    <a class="font-six a_class" href="/attendence/">
+                        <p class="a_text">Attendance</p>
+                    </a>
+                </div>
+            </li>
+            <li class="li">
+                <div class="nav_item_container {% if '/notes/' in request.path %}active{% endif %}">
+                    <a class="font-six a_class" href="{% url 'notes' %}">
+                        <p class="a_text">Notes</p>
+                    </a>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+
+        <div class="log-sign_container">
+            {% if user.is_authenticated %}
+            <a href="{% url 'new_note' %}" class="note-btn {% if request.path == '/notes/new/' %}active{% endif %}">
+                <span>New Note</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 4H4C3.44772 4 3 4.44772 3 5V19C3 19.5523 3.44772 20 4 20H18C18.5523 20 19 19.5523 19 19V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.5 2.5L21.5 6.5L12 16H8V12L17.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{% url 'logout' %}" class="logout-btn">
+                <span>Logout</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            {% else %}
+            <ul class="log-sign_container">
+                <li class="li log-sign">
+                    <div class="nav_item_container {% if request.path == '/login/' %}active{% endif %}">
+                        <a class="font-six a_class" href="/login">
+                            <p class="a_text login_text">Log-in</p>
+                        </a>
+                    </div>
+                </li>
+                <li class="li log-sign">
+                    <div class="nav_item_container login_btn {% if request.path == '/register/' %}active{% endif %}">
+                        <a class="font-six a_class" href="/register">
+                            <p class="a_text_main">Sign-up</p>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+
+        <button class="mobile-menu-button" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+</div>
+
+<div class="mobile-menu">
+    <div class="mobile-menu-header">
+        <a href="/" class="nav_a">
+            <img src="{% static 'media/logo.svg' %}" alt="Tobify">
+        </a>
+        <button class="mobile-menu-close" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <ul class="mobile-menu-items">
+        <li>
+            <a href="/" class="mobile-menu-link {% if request.path == '/' %}active{% endif %}">Home</a>
+        </li>
+        <li>
+            <a href="/about" class="mobile-menu-link {% if request.path == '/about/' %}active{% endif %}">About</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li>
+            <a href="/new" class="mobile-menu-link highlight {% if request.path == '/new/' %}active{% endif %}">
+                <span>New Note</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 4H4C3.44772 4 3 4.44772 3 5V19C3 19.5523 3.44772 20 4 20H18C18.5523 20 19 19.5523 19 19V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.5 2.5L21.5 6.5L12 16H8V12L17.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </li>
+        <li>
+            <a href="/attendence/" class="mobile-menu-link {% if '/attendence/' in request.path %}active{% endif %}">
+                <span>Attendance</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'notes' %}" class="mobile-menu-link {% if '/notes/' in request.path %}active{% endif %}">
+                <span>Notes</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'logout' %}" class="mobile-menu-link">
+                <span>Logout</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </li>
+        {% else %}
+        <li>
+            <a href="/login" class="mobile-menu-link {% if request.path == '/login/' %}active{% endif %}">Log in</a>
+        </li>
+        <li>
+            <a href="/register" class="mobile-menu-link highlight {% if request.path == '/register/' %}active{% endif %}">Sign up</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+
+<script>
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    mobileMenuClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+</script>
+</header>
+
+<style>
+    .nav_item_container.active {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 10px rgba(107, 115, 255, 0.5);
+    }
+
+    .mobile-menu-link.active {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 10px rgba(107, 115, 255, 0.5);
+    }
+
+    .note-btn.active {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 10px rgba(107, 115, 255, 0.5);
+    }
+</style>

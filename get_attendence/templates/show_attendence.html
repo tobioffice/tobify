@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Attendance Results - Tobify{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: #000;
+        min-height: 100vh;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        margin: 0;
+    }
+
+    .attendance-container {
+        max-width: 1200px;
+        width: 100%;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .header h1 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+
+    .header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
+    .subjects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+
+    .subject-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .subject-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(107, 115, 255, 0.3);
+    }
+
+    .subject-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .subject-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .attendance-count {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .attendance-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
+    .labs-card {
+        grid-column: 1 / -1;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(107, 115, 255, 0.05));
+    }
+
+    .labs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .lab-stat {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .lab-stat:hover {
+        transform: translateY(-2px);
+        border-color: rgba(107, 115, 255, 0.3);
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: white;
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.3);
+    }
+
+    .back-btn svg {
+        transition: transform 0.3s ease;
+    }
+
+    .back-btn:hover svg {
+        transform: translateX(-4px);
+    }
+
+    @media (max-width: 768px) {
+        .attendance-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+
+        .stat-card, .subject-card {
+            padding: 1rem;
+        }
+
+        .subject-name {
+            font-size: 1rem;
+        }
+
+        .attendance-count {
+            font-size: 1.25rem;
+        }
+
+        .labs-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .labs-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="attendance-container">
+    <div class="header">
+        <h1>Attendance Report</h1>
+        <p>Roll Number: {{ roll_number }}</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_classes }}</div>
+            <div class="stat-label">Total Classes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ attendance_percentage }}%</div>
+            <div class="stat-label">Overall Attendance</div>
+        </div>
+    </div>
+
+    {% if subjects %}
+    <div class="section-title">Theory Subjects</div>
+    <div class="subjects-grid">
+        {% for subject, attendance in subjects.items %}
+        <div class="subject-card">
+            <div class="subject-name">{{ subject }}</div>
+            <div class="subject-stats">
+                <div class="attendance-count">{{ attendance }}</div>
+                <div class="attendance-label">Classes Attended</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if LABS %}
+    <div class="section-title">Laboratory Sessions</div>
+    <div class="subject-card labs-card">
+        <div class="labs-grid">
+            {% for lab_attendance in LABS %}
+            <div class="lab-stat">
+                <div class="attendance-count">{{ lab_attendance }}</div>
+                <div class="attendance-label">Lab</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <a href="{% url 'get_attendence' %}" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+        </svg>
+        Check Another Roll Number
+    </a>
+</div>
+{% endblock %}

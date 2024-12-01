@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="{% static 'media/icon.png' %}" type="image/png" />
+    <title>Edit Note - Tobify</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      .note-form-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .note-form-header {
+        margin-bottom: 2rem;
+      }
+
+      .note-form-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+      }
+
+      .note-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: border-color 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #6b21a8;
+        box-shadow: 0 0 0 3px rgba(107, 33, 168, 0.1);
+      }
+
+      textarea.form-input {
+        min-height: 300px;
+        resize: vertical;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #6b21a8;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .submit-btn:hover {
+        background: #581c87;
+      }
+
+      .cancel-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #f3f4f6;
+        color: #4b5563;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .cancel-btn:hover {
+        background: #e5e7eb;
+      }
+
+      @media (max-width: 640px) {
+        .note-form-container {
+          margin: 1rem auto;
+        }
+
+        .note-form {
+          padding: 1.5rem;
+        }
+
+        .note-form-title {
+          font-size: 1.5rem;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .submit-btn,
+        .cancel-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+
+    <div class="note-form-container">
+      <div class="note-form-header">
+        <h1 class="note-form-title">Edit Note</h1>
+      </div>
+
+      <form method="POST" class="note-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-input"
+            value="{{ note.title }}"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="content" class="form-label">Content</label>
+          <textarea
+            id="content"
+            name="content"
+            class="form-input"
+            required
+          >{{ note.content }}</textarea>
+        </div>
+
+        <div class="form-actions">
+          <a href="{% url 'notes' %}" class="cancel-btn">
+            <span class="material-symbols-outlined">close</span>
+            Cancel
+          </a>
+          <button type="submit" class="submit-btn">
+            <span class="material-symbols-outlined">save</span>
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {% include 'js.html' %}
+  </body>
+</html>

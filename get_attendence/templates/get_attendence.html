@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Get Your Attendance - Tobify{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: #000;
+        min-height: 100vh;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        margin: 0;
+    }
+
+    .attendance-container {
+        max-width: 800px;
+        width: 100%;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .header h1 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+
+    .header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+    }
+
+    .roll-input-group {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .roll-input {
+        width: 2.5rem;
+        height: 3.5rem;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+    }
+
+    .roll-input:focus {
+        border-color: #6b73ff;
+        background: rgba(107, 115, 255, 0.1);
+        outline: none;
+    }
+
+    .submit-btn {
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        margin: 2rem auto 0;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.3);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        .attendance-container {
+            margin: 1rem auto;
+            padding: 1.5rem;
+        }
+
+        .roll-input {
+            width: 2rem;
+            height: 3rem;
+            font-size: 1.25rem;
+        }
+
+        .roll-input-group {
+            gap: 0.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="attendance-container">
+    <div class="header">
+        <h1>Get Your Attendance</h1>
+        <p>Enter your roll number to check your attendance details</p>
+    </div>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="roll-input-group">
+            <input required value="2" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]" title="Please enter a number">
+            <input required value="3" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]" title="Please enter a number">
+            <input required value="K" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]" title="Please enter a letter">
+            <input required value="B" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]" title="Please enter a number or 'A'">
+            <input required value="1" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]" title="Please enter a number">
+            <input required value="A" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]" title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
+        </div>
+        
+        <button type="submit" class="submit-btn">Check Attendance</button>
+    </form>
+</div>
+
+<script>
+    // Focus on the 6th input block when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.roll-input');
+        if (inputs.length >= 6) {
+            inputs[5].focus(); // 0-based index, so 5 is the 6th element
+        }
+    });
+
+    // Get all input fields
+    const inputs = document.querySelectorAll('.roll-input');
+
+    // Function to move to next input
+    function moveToNext(currentInput) {
+        const currentIndex = Array.from(inputs).indexOf(currentInput);
+        const next = inputs[currentIndex + 1];
+        if (next) {
+            next.focus();
+            next.select();
+        }
+    }
+
+    // Function to move to previous input
+    function moveToPrevious(currentInput) {
+        const currentIndex = Array.from(inputs).indexOf(currentInput);
+        const prev = inputs[currentIndex - 1];
+        if (prev) {
+            prev.focus();
+            prev.select();
+        }
+    }
+
+    // Add event listeners to each input
+    inputs.forEach((input, index) => {
+        // Handle input changes
+        input.addEventListener('input', function(e) {
+            if (this.value.length === this.maxLength) {
+                moveToNext(this);
+            }
+        });
+
+        // Handle keydown events
+        input.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'Backspace':
+                    if (!this.value) {
+                        e.preventDefault();
+                        moveToPrevious(this);
+                    }
+                    break;
+
+                case 'Delete':
+                    if (!this.value) {
+                        moveToNext(this);
+                    }
+                    break;
+
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    moveToPrevious(this);
+                    break;
+
+                case 'ArrowRight':
+                    e.preventDefault();
+                    moveToNext(this);
+                    break;
+
+                case 'Enter':
+                    e.preventDefault();
+                    if (index === inputs.length - 1) {
+                        // If it's the last input, submit the form
+                        this.closest('form').submit();
+                    } else {
+                        moveToNext(this);
+                    }
+                    break;
+            }
+        });
+
+        // Select all text on focus
+        input.addEventListener('focus', function() {
+            this.select();
+        });
+
+        // Handle paste event
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            const chars = pastedText.toUpperCase().split('');
+            
+            // Fill current and subsequent inputs with pasted characters
+            for (let i = index; i < inputs.length && i - index < chars.length; i++) {
+                inputs[i].value = chars[i - index];
+                if (i < inputs.length - 1) {
+                    inputs[i + 1].focus();
+                }
+            }
+        });
+    });
+
+    // Focus first input on page load
+    window.addEventListener('load', function() {
+        inputs[0].focus();
+        inputs[0].select();
+    });
+</script>
+{% endblock %}

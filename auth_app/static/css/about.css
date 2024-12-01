@@ -1,0 +1,173 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('https://fonts.gstatic.com/s/montserrat/v26/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2') format('woff2');
+  }
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+#container{
+    height: 150vh;
+    width: 400px;
+    /* background-color: red; */
+    padding: 5px;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile{
+    height: 100px;
+    width: 100px;
+    margin: 16px;
+    border-radius: 50%;
+}
+
+#bio-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+#bio-title h1{
+    color: black;
+    font-size: 28px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 16px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#bio-title h1:hover{
+    font-size: 29px;
+}
+
+li{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 54px;
+    margin: 0 8px 16px 8px;
+}
+
+.link a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    border-radius: 16px;
+    text-decoration: none;
+}
+
+.content{
+    height: 22px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+
+svg{
+    height: inherit;
+}
+
+span{
+    width: 70%;
+    font-size: 1rem;
+    color: white;
+    font-weight: 700;
+    margin-left: 0.6rem;
+}
+
+#youtube{
+    height: fit-content;
+    margin: 0 8px 16px 8px;
+}
+
+#channel{
+    display: flex;
+    align-items: center;
+    height: 127px;
+    background-color: white;
+    padding: 16px 24px;
+    border-radius: 16px;
+    text-decoration: none;
+    box-shadow: 0px 10px 35px -5px rgba(0,0,0,0.2);
+}
+
+#channel img{
+    height: 100%;
+    width: 30%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+#channel span{
+    color: black;
+    margin-left: 1rem;
+}
+
+#channel-trend{
+    margin-top: 60px;
+}
+
+#channel-trend span{
+    display: inline-block;
+    color: black;
+    font-size: larger;
+    padding: 10px;
+}
+
+
+
+#main-vid{
+    text-decoration: none;
+    height: 307px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 35px -5px rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+#main-vid img{
+    height: 70%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#main-vid span{
+    margin: 0;
+    display: inline-block;
+    padding: 16px 24px;
+    width: 100%;
+    font-size: medium;
+}
+
+#main-vid #play{
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    right: 144px;
+    bottom: 148px;
+}
