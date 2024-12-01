@@ -1,41 +1,50 @@
-# Tobify - Student Management System
+# Tobify - Student Management System 📚
 
-A comprehensive web application for managing student notes, attendance, and user authentication.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Django](https://img.shields.io/badge/django-4.0+-green.svg)](https://www.djangoproject.com/)
+[![PostgreSQL](https://img.shields.io/badge/postgresql-13+-blue.svg)](https://www.postgresql.org/)
 
-## Core Features
+A modern and comprehensive web application for managing student notes, attendance, and user authentication.
 
-### 1. Authentication System
+## 🌐 Live Demo
+
+Check out our live demo at [https://5qd-resolute-tesla.circumeo-apps.net/](https://5qd-resolute-tesla.circumeo-apps.net/)
+
+## ✨ Core Features
+
+### 🔐 Authentication System
 - User registration with email verification
 - Secure login system
 - Password reset functionality
 - Email-based OTP verification
 
-### 2. Notes Management
+### 📝 Notes Management
 - Create, edit, and delete personal notes
 - Make notes public or private
 - Share notes with other users
 - Organize notes by categories
 - Rich text editor support
 
-### 3. Attendance Tracking
+### 📊 Attendance Tracking
 - Track attendance for 2nd year students
 - View attendance records by date
 - Generate attendance reports
 - Mark attendance status (Present/Absent)
 
-## Technical Stack
+## 🛠️ Technical Stack
 
 ### Backend
-- Django (Python web framework)
-- PostgreSQL (Database)
-- Django REST Framework (API)
+- [Django](https://www.djangoproject.com/) - Python web framework
+- [PostgreSQL](https://www.postgresql.org/) - Database
+- [Django REST Framework](https://www.django-rest-framework.org/) - API
 
 ### Security
 - JWT Authentication
 - Email verification
 - Environment variables for sensitive data
 
-## Installation
+## 🚀 Quick Start
 
 1. Clone the repository:
 ```bash
@@ -57,7 +66,7 @@ pip install -r requirements.txt
 4. Configure environment variables:
 - Copy `.env.example` to `.env`
 - Update the following variables:
-  ```
+  ```env
   # Database Configuration
   PGDATABASE=your_database_name
   PGUSER=your_database_user
@@ -72,38 +81,34 @@ pip install -r requirements.txt
   SENDER_PASSWORD=your_app_password
   ```
 
-5. Run migrations:
+5. Setup the database:
 ```bash
 python manage.py migrate
-```
-
-6. Create superuser:
-```bash
 python manage.py createsuperuser
 ```
 
-7. Run the development server:
+6. Run the development server:
 ```bash
 python manage.py runserver
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 tobify/
-├── auth_app/            # Authentication application
+├── 🔐 auth_app/         # Authentication application
 │   ├── views.py         # Authentication views
 │   └── utils.py         # Email utilities
-├── notes_app/           # Notes management application
+├── 📝 notes_app/        # Notes management application
 │   └── views.py         # Notes CRUD operations
-├── get_attendence/      # Attendance tracking application
+├── 📊 get_attendence/   # Attendance tracking application
 │   └── views.py         # Attendance management
-└── tobify/              # Project configuration
+└── ⚙️ tobify/           # Project configuration
     ├── settings.py      # Project settings
     └── urls.py          # URL routing
 ```
 
-## API Endpoints
+## 🔌 API Endpoints
 
 ### Authentication
 - `POST /api/auth/register/` - User registration
@@ -122,7 +127,7 @@ tobify/
 - `POST /api/attendance/` - Mark attendance
 - `GET /api/attendance/report/` - Generate attendance report
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -130,10 +135,13 @@ tobify/
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## 💬 Support
 
-For support, email support@tobify.com or open an issue in the GitHub repository.
+For support:
+- 📧 Email: support@tobify.com
+- 🐛 Open an issue in the GitHub repository
+- 🌐 Visit our [live demo](https://5qd-resolute-tesla.circumeo-apps.net/)
