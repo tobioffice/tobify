@@ -41,6 +41,7 @@ def register_page(request):
         if not user.is_verified:
             otp = random.randint(100000, 999999)
             user.otp = otp
+            user.otp_created_at = timezone.now()
             send_email(user, otp)
             user.save()
             messages.info(request, "Please verify your email")
@@ -87,12 +88,17 @@ def verify_email(request):
     if request.method == 'POST':
         otp = request.POST.get('otp')
         if not User.objects.filter(id=user.id, otp=otp).exists():
-            messages.error(request, "Invalid OTP for this user")
+            messages.error(request, "Invalid OTP")
+            return redirect('/verify/')
+
+        if user.is_otp_expired():
+            messages.error(request, "OTP has expired. Please request a new one.")
             return redirect('/verify/')
 
         # Clear OTP after successful verification
         user.is_verified = True
         user.otp = None
+        user.otp_created_at = None
         user.save()
         # Redirect to home page or any other appropriate page
         return redirect('/')
@@ -157,9 +163,10 @@ def resend_mail(request):
         return redirect('/')
     otp = random.randint(100000, 999999)
     user.otp = otp
+    user.otp_created_at = timezone.now()
     send_email(user, otp)
     user.save()
-    messages.info(request, "OTP sent to your email")
+    messages.info(request, "New OTP sent to your email")
     return redirect('/verify/')
 
 

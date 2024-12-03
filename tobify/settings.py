@@ -25,10 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jw4x0jyxn##2crsck+=w-owzs!3-@5bs@jo#pom4*$_x_@io3!')
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 'django-insecure-jw4x0jyxn##2crsck+=w-owzs!3-@5bs@jo#pom4*$_x_@io3!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -96,7 +97,7 @@ WSGI_APPLICATION = 'tobify.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE', 'defaultdb'),  
+        'NAME': os.environ.get('PGDATABASE', 'defaultdb'),
         'USER': os.environ.get('PGUSER'),
         'PASSWORD': os.environ.get('PGPASSWORD'),
         'HOST': os.environ.get('PGHOST'),

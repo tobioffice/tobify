@@ -1,156 +1,162 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 - Page Not Found</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found | Tobify</title>
+  <link rel="icon" href="{% static 'media/icon.png' %}" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   <style>
-    @import "https://fonts.googleapis.com/css?family=Inconsolata";
-
-    html {
-      min-height: 100%;
-    }
-
     body {
-      box-sizing: border-box;
-      height: 100%;
-      background-color: #000000;
-      background-image: radial-gradient(#11581e, #041607);
-      background-repeat: no-repeat;
-      background-size: cover;
-      font-family: "Inconsolata", Helvetica, sans-serif;
-      font-size: 1.5rem;
-      color: rgba(128, 255, 128, 0.8);
-      text-shadow: 0 0 1ex rgba(51, 255, 51, 1),
-        0 0 2px rgba(255, 255, 255, 0.8);
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1f2937;
     }
 
-    .noise {
-      pointer-events: none;
+    .error-container {
+      max-width: 600px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .error-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 1rem 0 2rem;
+      color: #374151;
+    }
+
+    .error-message {
+      font-size: 1.1rem;
+      color: #6b7280;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin: 0 0.5rem;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+
+    .shapes {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: repeating-linear-gradient(
-        45deg,
-        #0000000d 0px,
-        #0000000d 5px,
-        #00000000 5px,
-        #00000000 10px
-      );
-      z-index: -1;
-      opacity: 0.1;
-    }
-
-    .overlay {
-      pointer-events: none;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0) 0,
-        rgba(0, 0, 0, 0.3) 50%,
-        rgba(0, 0, 0, 0) 100%
-      );
-      background-size: auto 4px;
-      z-index: 1;
-    }
-
-    .overlay::before {
-      content: "";
-      pointer-events: none;
-      position: absolute;
-      display: block;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      background-image: linear-gradient(
-        0deg,
-        transparent 0%,
-        rgba(32, 128, 32, 0.2) 2%,
-        rgba(32, 128, 32, 0.8) 3%,
-        rgba(32, 128, 32, 0.2) 3%,
-        transparent 100%
-      );
-      background-repeat: no-repeat;
-      animation: scan 7.5s linear 0s infinite;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
     }
 
-    @keyframes scan {
-      0% {
-        background-position: 0 -100vh;
-      }
-      35%,
-      100% {
-        background-position: 0 100vh;
-      }
-    }
-
-    .terminal {
-      box-sizing: inherit;
+    .shape {
       position: absolute;
-      height: 100%;
-      width: 90%;
-      max-width: 1000px;
-      padding: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      text-transform: uppercase;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.1) 100%);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     }
 
-    .output {
-      color: rgba(128, 255, 128, 0.8);
-      text-shadow: 0 0 1px rgba(51, 255, 51, 0.4),
-        0 0 2px rgba(255, 255, 255, 0.8);
+    .shape:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      right: -150px;
+      animation: float 6s ease-in-out infinite;
     }
 
-    .output::before {
-      content: "> ";
+    .shape:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      left: -100px;
+      animation: float 8s ease-in-out infinite reverse;
     }
 
-    a {
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s ease;
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      50% {
+        transform: translate(20px, -20px) rotate(10deg);
+      }
     }
 
-    a:hover {
-      color: #33ff33;
-    }
+    @media (max-width: 640px) {
+      .error-code {
+        font-size: 6rem;
+      }
 
-    a::before {
-      content: "[";
-    }
+      .error-title {
+        font-size: 1.5rem;
+      }
 
-    a::after {
-      content: "]";
-    }
+      .error-message {
+        font-size: 1rem;
+      }
 
-    .errorcode {
-      color: white;
+      .button {
+        display: block;
+        margin: 0.5rem auto;
+        width: fit-content;
+      }
     }
   </style>
-  <body>
-    <div class="noise"></div>
-    <div class="overlay"></div>
-    <div class="terminal">
-      <h1>Error <span class="errorcode">404</span></h1>
-      <p class="output">
-        The page you are looking for might have been removed, had its name
-        changed or is temporarily unavailable.
-      </p>
-      <p class="output">
-        Please try to <a href="javascript:history.back()">go back</a> or
-        <a href="/">return to the homepage</a>.
-      </p>
-      <p class="output">Good luck.</p>
+</head>
+
+<body>
+  <div class="shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+  <div class="error-container">
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">Page Not Found</h2>
+    <p class="error-message">
+      The page you're looking for doesn't exist or has been moved.
+      Don't worry though, you can find your way back home.
+    </p>
+    <div class="buttons">
+      <a href="javascript:history.back()" class="button">Go Back</a>
+      <a href="/" class="button">Return Home</a>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

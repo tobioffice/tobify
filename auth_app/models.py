@@ -9,6 +9,7 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
     otp = models.CharField(max_length=6, null=True, blank=True)
+    otp_created_at = models.DateTimeField(null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     username = models.CharField(max_length=255, null=True, blank=True)
     USERNAME_FIELD = 'email'
@@ -16,6 +17,13 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    def is_otp_expired(self):
+        if not self.otp_created_at:
+            return True
+        from django.utils import timezone
+        expiry_time = self.otp_created_at + timezone.timedelta(minutes=5)
+        return timezone.now() > expiry_time
 
 
 class Note(models.Model):
