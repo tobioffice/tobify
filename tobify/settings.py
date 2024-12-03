@@ -31,16 +31,12 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tobify.vercel.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tobify.vercel.app', '.vercel.app']
 
-CSRF_TRUSTED_ORIGINS = []
-
-# Application definition
+CSRF_TRUSTED_ORIGINS = ['https://tobify.vercel.app']
 
 CORS_ALLOWED_ORIGINS = [
-    'https://tobioffice.github.io',
-    # Adjust this to match your client origin
-    'https://h5z200wj-8000.inc1.devtunnels.ms'
+    'https://tobify.vercel.app',
 ]
 
 INSTALLED_APPS = [
@@ -58,8 +54,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # Add this line
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -159,7 +155,7 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = False  # Set to True if you have SSL configured
+SECURE_SSL_REDIRECT = False
 
 # Logging Configuration
 LOGGING = {

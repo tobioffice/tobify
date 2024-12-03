@@ -7,9 +7,17 @@
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.12"
             }
+        },
+        {
+            "src": "static/**",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        },
         {
             "src": "/(.*)",
             "dest": "tobify/wsgi.py"
