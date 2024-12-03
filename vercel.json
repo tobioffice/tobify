@@ -1,4 +1,5 @@
 {
+    "version": 2,
     "builds": [
         {
             "src": "tobify/wsgi.py",
@@ -22,5 +23,8 @@
             "src": "/(.*)",
             "dest": "tobify/wsgi.py"
         }
-    ]
+    ],
+    "env": {
+        "PYTHONUNBUFFERED": "1"
+    }
 }

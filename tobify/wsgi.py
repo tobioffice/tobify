@@ -8,11 +8,13 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
+from whitenoise import WhiteNoise
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tobify.settings')
 
 application = get_wsgi_application()
+application = WhiteNoise(application)
 
+# This is the important part for Vercel
 app = application

@@ -31,12 +31,13 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tobify.vercel.app', '.vercel.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tobify.vercel.app', '.vercel.app', '*']
 
-CSRF_TRUSTED_ORIGINS = ['https://tobify.vercel.app']
+CSRF_TRUSTED_ORIGINS = ['https://tobify.vercel.app', 'https://*.vercel.app']
 
 CORS_ALLOWED_ORIGINS = [
     'https://tobify.vercel.app',
+    'https://*.vercel.app'
 ]
 
 INSTALLED_APPS = [
