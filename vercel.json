@@ -1,23 +1,15 @@
 {
-    "version": 2,
     "builds": [
         {
             "src": "tobify/wsgi.py",
-            "use": "@vercel/python"
-        },
-        {
-            "src": "build_files.sh",
-            "use": "@vercel/static-build",
+            "use": "@vercel/python",
             "config": {
-                "distDir": "staticfiles"
+                "maxLambdaSize": "15mb",
+                "runtime": "python3.12"
             }
         }
     ],
     "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/static/$1"
-        },
         {
             "src": "/(.*)",
             "dest": "tobify/wsgi.py"
