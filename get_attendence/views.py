@@ -4,15 +4,21 @@ import datetime
 import pytz
 import re
 
+
 def get_attendence(request):
     if request.method == 'POST':
         roll_num = ''.join(request.POST.getlist('roll')).upper()
-        date_obj = datetime.datetime.now(pytz.utc).astimezone(pytz.timezone('Asia/Kolkata'))
+        date_obj = datetime.datetime.now(pytz.utc).astimezone(
+            pytz.timezone('Asia/Kolkata'))
         dta = get_data(rollno=roll_num, date_obj=date_obj)
-        print(dta)
+        
+        if isinstance(dta, dict) and dta.get('error'):
+            return render(request, 'get_attendence.html', {'error': dta['message']})
+            
         if type(dta) != str:
             # Find the labs key (the one containing parentheses)
-            labs_key = next((key for key in dta.keys() if '(' in str(key)), None)
+            labs_key = next((key for key in dta.keys()
+                            if '(' in str(key)), None)
             if labs_key:
                 # Extract numbers from the labs string using regex
                 labs_str = dta[labs_key]
@@ -21,7 +27,8 @@ def get_attendence(request):
                 del dta[labs_key]  # Remove the old key
 
             # Convert all other values to proper format
-            exclude_keys = {'roll_number', 'attendance_percentage', 'total_classes', 'LABS'}
+            exclude_keys = {'roll_number',
+                            'attendance_percentage', 'total_classes', 'LABS'}
             subject_data = {}
             for key, value in dta.items():
                 if key not in exclude_keys:

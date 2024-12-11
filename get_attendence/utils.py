@@ -4,18 +4,23 @@ import random
 import string
 from .models import Student
 import os
+from typing import Dict, Any
 
 USERNAME = os.getenv('USERNAME')
 PASSWORD = os.getenv('PASSWORD')
 
-imp_info = {'token': 'd2dfss2vt6g8acv1ewfefbnei6'}
+
+imp_info = {'token': ''}
 
 
 def get_resp(date_obj, roll_no):
     try:
         student = Student.objects.get(roll_no=roll_no)
     except Student.DoesNotExist:
-        raise ValueError(f"Student with roll number {roll_no} not found")
+        return {
+            'error': True,
+            'message': f"Roll number {roll_no} not found. Please check and try again."
+        }
 
     url = 'http://103.203.175.90:94/attendance/attendanceTillTodayReport.php'
     imp_info['indian_time'] = date_obj
@@ -35,27 +40,31 @@ def get_resp(date_obj, roll_no):
     indian_time = imp_info['indian_time']
     data = {
         'acadYear': '2024-25',
-        'yearSem': '21',
+        'yearSem': student.year,
         'branch': student.branch,
         'section': student.section.upper(),
         'dateOfAttendance': f'{indian_time.day if len(str(indian_time.day)) == 2 else "0" + str(indian_time.day)}-{indian_time.month if len(str(indian_time.month)) == 2 else "0" + str(indian_time.month)}-{indian_time.year}',
     }
 
     response = requests.post(url, headers=headers, data=data)
+    # print(response.text)
+    # print(imp_info['token'])
     return response
 
 
 def get_data(rollno, date_obj):
     # try:
     resp_req = get_resp(date_obj, rollno)
+    if isinstance(resp_req, dict) and resp_req.get('error'):
+        return resp_req
     html = resp_req.text
     if "<tr><td>User Name</td><td>:</td><td><input type=textbox name='username' id='username'" in html:
         print(len(html))
         print('entered\n')
-        rand_str = ''.join(random.choices(string.ascii_lowercase, k=3))
-        sess_token = f"ggpmgfj8dssskkp2q2h6db{rand_str}0"
-        url = "http://103.203.175.90:94/attendance/attendanceLogin.php"
-        headers = {
+        rand_str: str = ''.join(random.choices(string.ascii_lowercase, k=3))
+        sess_token: str = f"ggpmgfj8dssskkp2q2h6db{rand_str}0"
+        url: str = "http://103.203.175.90:94/attendance/attendanceLogin.php"
+        headers: Dict[str, str] = {
             "Cache-Control": "max-age=0",
             "Origin": "http://103.203.175.90:94",
             "Content-Type": "application/x-www-form-urlencoded",
@@ -70,11 +79,12 @@ def get_data(rollno, date_obj):
             "Connection": "keep-alive"
         }
 
-        payload = f'username={USERNAME}&password={PASSWORD}&captcha='
+        payload: str = f'username={USERNAME}&password={PASSWORD}&captcha='
 
-        response = requests.post(url, headers=headers,
-                                 data=payload, allow_redirects=False)
-        # print(response.headers,'\n',response.text)
+        response: requests.Response = requests.post(url, headers=headers,
+                                                    data=payload, allow_redirects=False)
+
+        # print(response.text)
         imp_info['token'] = sess_token
         return get_data(rollno, date_obj)
     else:

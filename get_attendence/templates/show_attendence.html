@@ -193,31 +193,126 @@
     }
 
     @media (max-width: 768px) {
-        .attendance-container {
-            margin: 1rem;
-            padding: 1.5rem;
+        body {
+            padding-top: 4rem;  /* Add space for the nav */
         }
 
-        .stat-card, .subject-card {
+        .attendance-container {
+            margin: 0.5rem;
             padding: 1rem;
+            border-radius: 16px;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+        }
+
+        .stats-grid {
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            padding: 0.75rem;
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+        }
+
+        .subjects-grid {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .subject-card {
+            padding: 1rem;
+            border-radius: 12px;
         }
 
         .subject-name {
             font-size: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .attendance-count {
             font-size: 1.25rem;
         }
 
+        .attendance-label {
+            font-size: 0.8rem;
+        }
+
+        .labs-card {
+            padding: 1rem;
+        }
+
         .labs-grid {
-            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+
+        .lab-stat {
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .back-btn {
+            padding: 0.6rem 1.25rem;
+            font-size: 0.9rem;
+            border-radius: 8px;
+        }
+
+        /* Remove hover effects on mobile */
+        .stat-card:hover,
+        .subject-card:hover,
+        .lab-stat:hover,
+        .back-btn:hover {
+            transform: none;
+        }
+
+        /* Add active states for touch */
+        .stat-card:active,
+        .subject-card:active,
+        .lab-stat:active,
+        .back-btn:active {
+            transform: scale(0.98);
         }
     }
 
-    @media (max-width: 480px) {
-        .labs-grid {
+    /* Additional optimizations for very small screens */
+    @media (max-width: 360px) {
+        .stats-grid {
             grid-template-columns: 1fr;
+        }
+
+        .stat-card {
+            padding: 0.6rem;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+        }
+
+        .header h1 {
+            font-size: 1.1rem;
         }
     }
 </style>

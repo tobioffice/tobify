@@ -2,11 +2,15 @@ from django.db import models
 
 
 class Student(models.Model):
-    name = models.CharField(max_length=255)
-    roll_no = models.CharField(max_length=20, unique=True)
-    section = models.CharField(max_length=10)
-    year = models.CharField(max_length=10)
-    branch = models.CharField(max_length=50)
+    roll_no = models.TextField(primary_key=True)
+    name = models.TextField()
+    section = models.TextField()
+    branch = models.TextField()
+    year = models.TextField()
 
     def __str__(self):
         return f"{self.name} - {self.roll_no}"
+
+    class Meta:
+        managed = False  # Tells Django not to manage this table
+        db_table = 'students'  # Name of your existing table

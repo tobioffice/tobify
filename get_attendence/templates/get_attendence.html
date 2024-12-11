@@ -76,10 +76,9 @@
     }
 
     .submit-btn {
-        display: block;
         width: 100%;
-        max-width: 200px;
-        margin: 2rem auto 0;
+        max-width: 150px;
+        margin: 0;
         padding: 0.75rem 1.5rem;
         background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
         color: white;
@@ -91,29 +90,133 @@
         transition: all 0.3s ease;
     }
 
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .clear-btn {
+        width: 100%;
+        max-width: 150px;
+        margin: 0;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .clear-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+
     .submit-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(107, 115, 255, 0.3);
     }
 
-    .submit-btn:active {
-        transform: translateY(0);
+    .error-message {
+        background: rgba(255, 87, 87, 0.1);
+        border: 1px solid rgba(255, 87, 87, 0.2);
+        color: #ff5757;
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 0.95rem;
     }
 
     @media (max-width: 768px) {
         .attendance-container {
-            margin: 1rem auto;
-            padding: 1.5rem;
+            margin: 0.5rem;
+            padding: 1rem;
+            width: calc(100% - 1rem);
+            max-width: none;
         }
 
-        .roll-input {
-            width: 2rem;
-            height: 3rem;
-            font-size: 1.25rem;
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
         }
 
         .roll-input-group {
-            gap: 0.25rem;
+            gap: 0.35rem;
+            margin-bottom: 1rem;
+        }
+
+        .roll-input {
+            width: 2.2rem;
+            height: 3.2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            -webkit-appearance: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .button-group {
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0 1rem;
+        }
+
+        .submit-btn,
+        .clear-btn {
+            max-width: none;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            height: 3.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .error-message {
+            font-size: 0.85rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Improve touch target size */
+        .roll-input:focus {
+            transform: scale(1.05);
+        }
+
+        /* Remove hover effects on mobile */
+        .submit-btn:hover,
+        .clear-btn:hover {
+            transform: none;
+        }
+
+        /* Active state for touch */
+        .submit-btn:active,
+        .clear-btn:active {
+            transform: scale(0.98);
+        }
+    }
+
+    /* Add smooth scrolling for mobile */
+    @media (max-width: 768px) {
+        html {
+            scroll-behavior: smooth;
         }
     }
 </style>
@@ -125,34 +228,66 @@
         <h1>Get Your Attendance</h1>
         <p>Enter your roll number to check your attendance details</p>
     </div>
-    
+
+    {% if error %}
+    <div class="error-message">
+        {{ error }}
+    </div>
+    {% endif %}
+
     <form action="" method="post">
         {% csrf_token %}
         <div class="roll-input-group">
-            <input required value="2" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]" title="Please enter a number">
-            <input required value="3" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]" title="Please enter a number">
-            <input required value="K" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]" title="Please enter a letter">
-            <input required value="B" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]" title="Please enter a number or 'A'">
-            <input required value="1" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]" title="Please enter a number">
-            <input required value="A" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]" title="Please enter a number">
-            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
-            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
-            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
-            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]" title="Please enter a number">
+            <input required value="2" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]"
+                title="Please enter a number">
+            <input required value="3" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]"
+                title="Please enter a number">
+            <input required value="K" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]"
+                title="Please enter a letter">
+            <input required value="B" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]"
+                title="Please enter a number or 'A'">
+            <input required value="1" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9]"
+                title="Please enter a number">
+            <input required value="A" maxlength="1" class="roll-input" type="text" name="roll" pattern="[A-Za-z]"
+                title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]"
+                title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]"
+                title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]"
+                title="Please enter a number">
+            <input required value="" maxlength="1" class="roll-input" type="text" name="roll" pattern="[0-9A-Za-z]"
+                title="Please enter a number">
         </div>
-        
-        <button type="submit" class="submit-btn">Check Attendance</button>
+
+        <div class="button-group">
+            <button type="submit" class="submit-btn">Check Attendance</button>
+            <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>
+        </div>
     </form>
 </div>
 
 <script>
     // Focus on the 6th input block when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('.roll-input');
-        if (inputs.length >= 6) {
-            inputs[5].focus(); // 0-based index, so 5 is the 6th element
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(() => {
+            const inputs = document.querySelectorAll('.roll-input');
+            if (inputs.length >= 6) {
+                inputs[6].focus(); // 0-based index, so 5 is the 6th element
+            }
+        }, 300);
     });
+
+    // Function to clear all inputs and focus on 6th input
+    function clearForm() {
+        const inputs = document.querySelectorAll('.roll-input');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        if (inputs.length >= 6) {
+            inputs[0].focus();
+        }
+    }
 
     // Get all input fields
     const inputs = document.querySelectorAll('.roll-input');
@@ -180,15 +315,15 @@
     // Add event listeners to each input
     inputs.forEach((input, index) => {
         // Handle input changes
-        input.addEventListener('input', function(e) {
+        input.addEventListener('input', function (e) {
             if (this.value.length === this.maxLength) {
                 moveToNext(this);
             }
         });
 
         // Handle keydown events
-        input.addEventListener('keydown', function(e) {
-            switch(e.key) {
+        input.addEventListener('keydown', function (e) {
+            switch (e.key) {
                 case 'Backspace':
                     if (!this.value) {
                         e.preventDefault();
@@ -225,16 +360,16 @@
         });
 
         // Select all text on focus
-        input.addEventListener('focus', function() {
+        input.addEventListener('focus', function () {
             this.select();
         });
 
         // Handle paste event
-        input.addEventListener('paste', function(e) {
+        input.addEventListener('paste', function (e) {
             e.preventDefault();
             const pastedText = (e.clipboardData || window.clipboardData).getData('text');
             const chars = pastedText.toUpperCase().split('');
-            
+
             // Fill current and subsequent inputs with pasted characters
             for (let i = index; i < inputs.length && i - index < chars.length; i++) {
                 inputs[i].value = chars[i - index];
@@ -246,7 +381,7 @@
     });
 
     // Focus first input on page load
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         inputs[0].focus();
         inputs[0].select();
     });
